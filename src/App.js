@@ -1,23 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import ProgressBar from './components/ProgressBar';
+import { useEffect, useState } from 'react';
 
 function App() {
+  let[valc,setValue] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setValue((val) => val + 1);
+    }, 70);
+
+    // Clear the previous interval before setting a new one
+    return () => clearInterval(intervalId);
+  }, []);
+  console.log(valc);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className='text-center my-4'>Progress Bar</h1>
+      <ProgressBar value={valc}></ProgressBar>
+      <p className='my-2'><span style={{display: valc>99?"none":"block"}}>Loading...</span><span style={{display: valc>99?"block":"none"}}>Completed</span></p>
+      
     </div>
   );
 }
